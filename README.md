@@ -14,6 +14,8 @@ python3 -m http.server 8000 --directory public
 
 ## Структура
 
+Верхнее меню всех страниц формируется из `scripts/update_navigation.py`. После изменения пунктов запустите `python3 scripts/update_navigation.py`; относительные ссылки и текущий раздел будут выставлены для каждой страницы автоматически.
+
 - `public/index.html` — главная страница; содержит также встроенные стили и скрипты новых блоков.
 - `public/b2b/` — бизнес-раздел и четыре тематические страницы.
 - `public/{trends,avatar,carousel,posts,expert-videos,autoposting,scheduled-posts,socials}/` — страницы продукта.

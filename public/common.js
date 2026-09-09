@@ -4,7 +4,7 @@
   const menuButton = header.querySelector('.menu-toggle');
   const nav = header.querySelector('#navigation');
   const toggles = Array.from(header.querySelectorAll('[data-menu-toggle]'));
-  const mobile = window.matchMedia('(max-width: 1000px)');
+  const mobile = window.matchMedia('(max-width: 1180px)');
 
   function closeDropdowns(except = null) {
     toggles.forEach(button => {
