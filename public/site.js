@@ -181,7 +181,9 @@
   });
   }
 
-  const videos = Array.from(document.querySelectorAll('video'));
+  // Product cards have their own controller and may play together.
+  const videos = Array.from(document.querySelectorAll('video'))
+    .filter(video => !video.closest('#owai-product-cards'));
   videos.forEach(video => video.addEventListener('play', () => {
     videos.forEach(other => { if (other !== video) other.pause(); });
   }));
