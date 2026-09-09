@@ -190,7 +190,6 @@
         cleanups.push(() => target.removeEventListener(event, fn, options));
       };
       const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-      const mobile = matchMedia('(max-width: 759px)');
       const connection = navigator.connection;
       const motion = root.querySelector('.owc-motion');
       let userChoice = null;
@@ -210,6 +209,24 @@
       let carouselTimer = null;
       let resetTimer = null;
       let carouselWanted = false;
+      let selectedVideos = [];
+      let nextVideoIndex = 0;
+      let rotationTimer = null;
+
+      const eligibleVideos = () => videos.filter(item => item.ratio >= .35 && !item.failed && !item.blocked);
+      function stopRotation() {cancel(rotationTimer);rotationTimer=null;}
+      function scheduleRotation() {
+        if (rotationTimer !== null || !running() || document.hidden || !selectedVideos.length) return;
+        // Give each pair time on screen after playback has actually started.
+        if (selectedVideos.some(item => item.pending || item.video.paused)) return;
+        if (!eligibleVideos().some(item => !selectedVideos.includes(item))) return;
+        rotationTimer=later(() => {
+          rotationTimer=null;
+          if (!running() || document.hidden) return;
+          if (eligibleVideos().some(item => !selectedVideos.includes(item))) selectedVideos.shift();
+          sync();
+        },3000 + Math.random()*2000);
+      }
 
       function stopCarousel() {cancel(carouselTimer);carouselTimer=null;}
       function markSlide(index) {
@@ -260,7 +277,7 @@
         videos.forEach((item,index) => later(() => prime(item),index*180));
       }
       function requestPlay(item) {
-        if (item.pending || item.blocked || item.failed || !item.video.paused) return;
+        if (!item.wanted || !running() || document.hidden || item.pending || item.blocked || item.failed || !item.video.paused) return;
         prime(item);
         item.pending=true;
         Promise.resolve(item.video.play()).then(() => {
@@ -276,18 +293,32 @@
           item.pending=false;
           if (!destroyed && item.wanted && running() && !document.hidden &&
               !item.blocked && !item.failed && item.video.paused) later(() => requestPlay(item),100);
+          if (!destroyed && (item.blocked || item.failed)) sync();
+          else scheduleRotation();
         });
       }
       function sync() {
         if (destroyed) return;
         const active=running() && !document.hidden;
-        const selected=new Set(active ? videos.filter(item => item.ratio >= .35 && !item.failed)
-          .sort((a,b) => b.ratio-a.ratio).slice(0,mobile.matches ? 1 : 4) : []);
+        const eligible=active ? eligibleVideos() : [];
+        const previous=selectedVideos.slice();
+        selectedVideos=selectedVideos.filter(item => eligible.includes(item));
+        // Rotate through visible cards in order, keeping at most two active.
+        for (let checked=0; checked<videos.length && selectedVideos.length<2; checked++) {
+          const item=videos[nextVideoIndex];
+          nextVideoIndex=(nextVideoIndex+1)%videos.length;
+          if (eligible.includes(item) && !selectedVideos.includes(item)) selectedVideos.push(item);
+        }
+        if (previous.length !== selectedVideos.length || previous.some((item,index) => item !== selectedVideos[index])) stopRotation();
+        const selected=new Set(selectedVideos);
+        // Pause outgoing videos before starting incoming ones, so a third cannot overlap.
         videos.forEach(item => {
           item.wanted=selected.has(item);
-          if (item.wanted) requestPlay(item);
-          else item.video.pause();
+          if (!item.wanted) item.video.pause();
         });
+        selectedVideos.forEach(requestPlay);
+        if (!active || eligible.length<=selectedVideos.length) stopRotation();
+        else scheduleRotation();
         carouselWanted=active && gallery.ratio >= .35;
         if (carouselWanted) scheduleCarousel();else stopCarousel();
         motion.textContent=running() ? 'Остановить анимацию' : 'Запустить анимацию';
@@ -299,14 +330,15 @@
         listen(item.video,'error',() => {
           item.failed=true;item.pending=false;item.media.classList.remove('has-frame');
           item.button.hidden=false;
+          sync();
         });
         listen(item.button,'click',() => {
           item.blocked=false;
           if (item.failed) {item.failed=false;item.loaded=false;}
           userChoice=true;
-          videos.forEach(other => {if (other !== item) {other.wanted=false;other.video.pause();}});
-          item.wanted=true;requestPlay(item);
-          motion.textContent='Остановить анимацию';
+          stopRotation();
+          selectedVideos=[item,...selectedVideos.filter(other => other !== item)].slice(0,2);
+          sync();
         });
       });
       listen(motion,'click',() => {
@@ -360,7 +392,6 @@
       else listen(window,'load',startBackgroundLoad,{once:true});
       listen(document,'visibilitychange',sync);
       listen(reduced,'change',sync);
-      listen(mobile,'change',sync);
       if (connection) listen(connection,'change',sync);
       const controller={
         destroy() {
