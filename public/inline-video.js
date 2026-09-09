@@ -33,8 +33,8 @@
   }
 
   function updateButton(item) {
-    const active = wantsPlay(item) && !item.blocked && !item.failed;
-    const label = item.failed ? 'Повторить' : active ? 'Остановить видео' : 'Запустить видео';
+    const label = item.failed ? 'Повторить' : 'Запустить видео';
+    item.button.hidden = !item.failed && !item.blocked && motionAllowed(item);
     item.button.textContent = label;
     item.button.setAttribute('aria-label', `${label}: ${item.slot.dataset.videoLabel}`);
     item.status.hidden = !item.failed;
@@ -68,10 +68,8 @@
   }
 
   items.forEach(item => {
-    item.button.hidden = false;
     item.button.addEventListener('click', () => {
-      const active = wantsPlay(item) && !item.blocked && !item.failed;
-      item.userMotion = !active;
+      item.userMotion = true;
       item.blocked = false;
       if (item.failed) {
         item.failed = false;
