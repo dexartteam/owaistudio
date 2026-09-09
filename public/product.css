@@ -24,19 +24,21 @@
 
 .product-page h1,.product-page h2,.product-page h3,.dropdown-links b,.site-footer a{overflow-wrap:anywhere}
 
-
-/* --- Vimeo slots (autoplay when fully visible, preloaded ahead of time) --- */
-.vplayer{position:relative;overflow:hidden;background:#1a1a17;container-type:size}
-.vplayer::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:auto}
-.vplayer .vp-frame{position:absolute;inset:0;z-index:1}
-.vplayer iframe{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:100%;border:0;z-index:1;pointer-events:none}
-.vplayer[data-cover="1"] iframe{width:max(100cqw,100cqh * 9 / 16);height:max(100cqh,100cqw * 16 / 9)}
-.stage-main>.vplayer{height:auto;min-height:0;aspect-ratio:16 / 9}
-.stage-person>.vplayer{position:relative;height:100%;width:100%;min-width:0}
+/* Native hero players: poster remains visible until a video frame is playing. */
+.inline-player{position:relative;overflow:hidden;background:#111;min-width:0}
+.inline-player [hidden]{display:none!important}
+.inline-player>.inline-poster,.inline-player>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;pointer-events:none}
+.inline-player>.inline-poster{z-index:0}
+.inline-player>video{z-index:1;opacity:0}
+.inline-player.has-frame>video{opacity:1}
+.inline-video-toggle{position:absolute;z-index:4;top:16px;right:16px;max-width:calc(100% - 32px);min-height:44px;padding:10px 14px;border:1px solid #fff6;border-radius:3px;background:#171717e8;color:#fff;font:inherit;font-size:.875rem;line-height:1.4;cursor:pointer}
+.inline-video-toggle:focus-visible{outline:2px solid #ff6b2c;outline-offset:3px}
+.inline-video-status{position:absolute;z-index:4;top:80px;left:16px;right:16px;padding:10px 14px;background:#171717e8;color:#fff;font-size:.875rem;line-height:1.4}
+.stage-main>.inline-player{height:auto;min-height:0;aspect-ratio:16 / 9;width:100%}
+.stage-person>.inline-player{height:100%;width:100%}
 .stage-person>figcaption{z-index:3}
-.home-stage:has(.vplayer){align-items:stretch}
-.home-stage .stage-main:has(.vplayer){display:flex}
-.home-stage .stage-main>.vplayer{width:100%}
-.home-stage:has(.vplayer) .stage-person{height:auto;min-height:0;align-self:stretch}
-@media (max-width:800px){.home-stage:has(.vplayer) .stage-person{height:240px}}
-
+.home-stage:has(.inline-player){align-items:stretch}
+.home-stage .stage-main:has(.inline-player){display:flex}
+.home-stage:has(.inline-player) .stage-person{height:auto;min-height:0;align-self:stretch}
+@media(max-width:800px){.home-stage:has(.inline-player) .stage-person{height:240px}}
+@media(max-width:540px){.inline-video-toggle{top:10px;right:10px;max-width:calc(100% - 20px);padding:8px 10px;font-size:.75rem}}
