@@ -87,3 +87,7 @@
   .unified-header .menu-toggle{justify-content:center;min-width:36px;padding:6px}
   .unified-header .menu-toggle-label{display:none}
 }
+
+/* Keep the original character image in flow until the first video frame. */
+.character-map-player>.inline-poster{position:relative;display:block;width:100%;height:auto}
+.character-map-player>video{object-fit:cover}

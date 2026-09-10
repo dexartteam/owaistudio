@@ -15,6 +15,10 @@
     userMotion: null,
     loaded: false,
     pending: false,
+    playDelay: Math.max(0, Number(slot.dataset.playDelay) || 0),
+    delayTimer: null,
+    delayReady: false,
+    started: false,
     blocked: false,
     failed: false,
   }));
@@ -40,14 +44,33 @@
     item.status.hidden = !item.failed;
   }
 
+  function cancelDelay(item) {
+    if (item.delayTimer !== null) window.clearTimeout(item.delayTimer);
+    item.delayTimer = null;
+    if (!item.started) item.delayReady = false;
+  }
+
   function sync(item) {
     updateButton(item);
     if (!wantsPlay(item)) {
+      cancelDelay(item);
       item.video.pause();
       return;
     }
     if (item.pending || item.blocked || item.failed || !item.video.paused) return;
     prime(item);
+    // Count only uninterrupted visible time before the first playback.
+    // Preloading and canplay events must not bypass or restart this delay.
+    if (item.playDelay && !item.started && !item.delayReady) {
+      if (item.delayTimer === null) {
+        item.delayTimer = window.setTimeout(() => {
+          item.delayTimer = null;
+          item.delayReady = true;
+          sync(item);
+        }, item.playDelay);
+      }
+      return;
+    }
     item.pending = true;
     let interrupted = false;
     let attempt;
@@ -70,6 +93,8 @@
   items.forEach(item => {
     item.button.addEventListener('click', () => {
       item.userMotion = true;
+      cancelDelay(item);
+      item.delayReady = true;
       item.blocked = false;
       if (item.failed) {
         item.failed = false;
@@ -82,11 +107,13 @@
         item.video.pause();
         return;
       }
+      item.started = true;
       item.slot.classList.add('has-frame');
       updateButton(item);
     });
     item.video.addEventListener('error', () => {
       item.failed = true;
+      cancelDelay(item);
       item.slot.classList.remove('has-frame');
       updateButton(item);
     });
@@ -121,6 +148,9 @@
   document.addEventListener('visibilitychange', syncAll);
   reducedMotion.addEventListener('change', syncAll);
   connection?.addEventListener?.('change', syncAll);
-  window.addEventListener('pagehide', () => items.forEach(item => item.video.pause()));
+  window.addEventListener('pagehide', () => items.forEach(item => {
+    cancelDelay(item);
+    item.video.pause();
+  }));
   window.addEventListener('pageshow', syncAll);
 })();
