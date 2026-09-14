@@ -91,3 +91,7 @@
 /* Keep the original character image in flow until the first video frame. */
 .character-map-player>.inline-poster{position:relative;display:block;width:100%;height:auto}
 .character-map-player>video{object-fit:cover}
+
+/* The spoken example autoplays while visible and keeps native sound controls. */
+.home-video .expert-video-player{aspect-ratio:480 / 854}
+.expert-video-player>video{pointer-events:auto}
