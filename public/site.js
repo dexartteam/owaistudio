@@ -183,7 +183,7 @@
 
   // Decorative inline videos have independent controllers and may play together.
   const videos = Array.from(document.querySelectorAll('video'))
-    .filter(video => !video.closest('#owai-product-cards, [data-native-player]'));
+    .filter(video => !video.closest('#owai-product-cards, [data-native-player], [data-viral-gallery]'));
   videos.forEach(video => video.addEventListener('play', () => {
     videos.forEach(other => { if (other !== video) other.pause(); });
   }));
