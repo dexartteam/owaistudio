@@ -131,3 +131,10 @@
 .viral-scroll:focus-visible,.viral-navigation button:focus-visible,.viral-play:focus-visible,.viral-fallback:focus-visible{outline:2px solid var(--orange);outline-offset:3px}
 @media(max-width:1100px){.viral-grid{grid-template-columns:repeat(10,minmax(155px,calc((100% - 48px)/4)))}.home-viral{margin-top:55px}}
 @media(max-width:650px){.home-viral{margin-top:42px;padding-top:28px}.viral-heading{display:block;margin-bottom:22px}.viral-heading>p{margin-top:18px;font-size:15px}.viral-grid{gap:10px;grid-template-columns:repeat(10,minmax(145px,calc((100% - 10px)/2)))}.viral-footer{flex-wrap:wrap;gap:12px}.viral-footer p{flex:1}.viral-footer .text-link{flex-basis:100%}}
+
+/* Keep the business teaser's original image in flow and match its crop exactly. */
+.business-bridge>.business-video-player>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% center;opacity:0;z-index:1;pointer-events:none}
+.business-bridge>.business-video-player.has-frame>video{opacity:1}
+.business-bridge>.business-video-player>figcaption{z-index:2;pointer-events:none}
+.business-video-player>video::-webkit-media-controls,.business-video-player>video::-webkit-media-controls-enclosure,.business-video-player>video::-webkit-media-controls-start-playback-button{display:none!important}
+@media(max-width:800px){.business-bridge>.business-video-player>video{object-position:center 43%}}
