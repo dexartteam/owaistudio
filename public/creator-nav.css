@@ -1,0 +1,46 @@
+/* The creator invitation shares the header on every OWAI page. */
+.unified-nav > .nav-creators {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 44px;
+  padding: 11px 13px;
+  border: 1px solid var(--orange, #ff6b2c);
+  border-radius: 4px;
+  background: var(--orange, #ff6b2c);
+  color: var(--ink, #0f0f10);
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+.unified-nav > .nav-creators:hover,
+.unified-nav > .nav-creators[aria-current="page"] {
+  border-color: #ef5819;
+  background: #ef5819;
+  color: var(--ink, #0f0f10);
+}
+.unified-nav > .nav-creators:focus-visible {
+  outline-color: var(--ink, #0f0f10);
+  outline-offset: 4px;
+}
+.nav-creators > span { font-size: 1.05em; }
+
+/* Fit the complete desktop navigation before the shared mobile breakpoint. */
+@media (min-width: 1181px) and (max-width: 1380px) {
+  .unified-header { gap: 16px; }
+  .unified-nav { gap: 4px; }
+  .unified-nav > a,
+  .product-menu-label > .menu-category { padding-left: 8px; padding-right: 8px; }
+  .unified-nav > .nav-creators { padding-left: 11px; padding-right: 11px; }
+}
+@media (max-width: 1180px) {
+  .unified-nav > .nav-creators {
+    align-self: stretch;
+    justify-content: space-between;
+    margin-top: 8px;
+    padding: 16px 18px;
+    min-height: 56px;
+  }
+}

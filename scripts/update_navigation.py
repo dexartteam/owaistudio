@@ -72,6 +72,9 @@ def render_header(page):
     parts.extend([
         f'<a href="{prefix}#examples">Примеры</a>',
         f'<a href="{prefix}#price">Цены</a>',
+        f'<a class="nav-creators" href="{prefix}creators/"'
+        + (' aria-current="page"' if current == "creators/" else "")
+        + '>Ищем креаторов<span aria-hidden="true">↗</span></a>',
         '</nav>',
         '<div class="nav-account">',
         '<a class="nav-signin" href="https://owai.studio/signin">Вход</a>',
@@ -112,6 +115,13 @@ def main():
                 rf'((?:href|src)="(?:\.\.?/)+{re.escape(asset)})(?:\?[^"<>]*)?"',
                 rf'\1?v={VERSION}"', updated,
             )
+        depth = len(page.parent.relative_to(PUBLIC).parts)
+        prefix = "../" * depth if depth else "./"
+        creator_css = (
+            f'<link rel="stylesheet" href="{prefix}creator-nav.css?v=20260918-creators1">'
+        )
+        if "creator-nav.css" not in updated:
+            updated = updated.replace('</head>', creator_css + '</head>', 1)
         if updated != source:
             page.write_text(updated)
             count += 1
