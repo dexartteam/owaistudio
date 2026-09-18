@@ -426,338 +426,64 @@
 </section>
  <section id="owai-personality-concept" aria-labelledby="ow-personality-heading">
   <style>
-    #owai-personality-concept {
-      --ow-paper: #f7f7f5;
-      --ow-white: #ffffff;
-      --ow-ink: #0f0f10;
-      --ow-muted: #696965;
-      --ow-line: #ddddd7;
-      --ow-orange: #ff6b2c;
-      color-scheme: light;
-      width: 100%;
-      box-sizing: border-box;
-      padding: clamp(24px, 5.5vw, 48px);
-      background: var(--ow-paper);
-      color: var(--ow-ink);
-      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-    }
-    #owai-personality-concept * {box-sizing: border-box;}
-    #owai-personality-concept h2,
-    #owai-personality-concept h3,
-    #owai-personality-concept p,
-    #owai-personality-concept blockquote {margin: 0;}
-    #owai-personality-concept .ow-label {
-      display: block;
-      font-size: 12px;
-      font-weight: 500;
-      line-height: 1.5;
-      letter-spacing: .095em;
-      text-transform: uppercase;
-      color: var(--ow-muted);
-    }
-    #owai-personality-concept .ow-intro h2 {
-      margin: 22px 0 24px;
-      font-size: clamp(38px, 7.8vw, 66px);
-      font-weight: 600;
-      letter-spacing: -.055em;
-      line-height: 1.06;
-    }
-    #owai-personality-concept .ow-intro h2 span {color: var(--ow-orange);}
-    #owai-personality-concept .ow-intro p {
-      max-width: 550px;
-      font-size: 17px;
-      font-weight: 400;
-      line-height: 1.65;
-      color: var(--ow-muted);
-    }
-    #owai-personality-concept .ow-example {
-      margin-top: 38px;
-      border-top: 1px solid var(--ow-line);
-      padding-top: 24px;
-    }
-    #owai-personality-concept .ow-person {
-      max-width: 690px;
-      margin-bottom: 22px;
-    }
-    #owai-personality-concept .ow-person h3 {
-      margin-top: 10px;
-      font-size: clamp(23px, 3.7vw, 30px);
-      font-weight: 500;
-      letter-spacing: -.03em;
-      line-height: 1.25;
-    }
-    #owai-personality-concept .ow-person p {
-      margin-top: 12px;
-      font-size: 15px;
-      line-height: 1.65;
-      color: var(--ow-muted);
-    }
-    #owai-personality-concept .ow-example-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 14px 24px;
-      margin-bottom: 18px;
-    }
-    #owai-personality-concept .ow-example-name {
-      font-size: 13px;
-      line-height: 1.5;
-      color: var(--ow-muted);
-    }
-    #owai-personality-concept .ow-example-name b {
-      color: var(--ow-ink);
-      font-weight: 500;
-    }
-    #owai-personality-concept .ow-choices {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 4px;
-    }
-    #owai-personality-concept .ow-choice {
-      appearance: none;
-      margin: 0;
-      padding: 11px 12px;
-      min-height: 44px;
-      border: 0;
-      border-bottom: 2px solid transparent;
-      border-radius: 0;
-      background: transparent;
-      color: var(--ow-muted);
-      font: 500 14px/1.4 Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-      cursor: pointer;
-    }
-    #owai-personality-concept .ow-choice[aria-pressed="true"] {
-      border-bottom-color: var(--ow-orange);
-      color: var(--ow-ink);
-    }
-    #owai-personality-concept .ow-choice:hover {color: var(--ow-ink);}
-    #owai-personality-concept .ow-demo {
-      display: grid;
-      grid-template-columns: minmax(0, 1.18fr) minmax(0, 1fr);
-      align-items: stretch;
-      border: 1px solid var(--ow-line);
-      border-radius: 4px;
-      overflow: hidden;
-    }
-    #owai-personality-concept .ow-conversation {
-      min-width: 0;
-      padding: 27px 26px 30px;
-      background: #191a17;
-      color: #f7f7f5;
-      display: flex;
-      flex-direction: column;
-    }
-    #owai-personality-concept .ow-conversation .ow-label {color: #b6b6ad;}
-    #owai-personality-concept .ow-question {
-      font-size: 15px;
-      line-height: 1.55;
-      margin-top: 14px;
-      color: #b6b6ad;
-    }
-    #owai-personality-concept .ow-answer {
-      padding: 25px 0 5px;
-      font-size: 20px;
-      line-height: 1.55;
-      letter-spacing: -.015em;
-      font-weight: 400;
-    }
-    #owai-personality-concept .ow-answer mark {
-      background: transparent;
-      color: #ff9564;
-    }
-    #owai-personality-concept .ow-answer-credit {
-      margin-top: auto;
-      padding-top: 22px;
-      color: #b6b6ad;
-      font-size: 12px;
-      line-height: 1.5;
-    }
-    #owai-personality-concept .ow-result {
-      min-width: 0;
-      padding: 27px 26px 30px;
-      background: var(--ow-white);
-      display: flex;
-      flex-direction: column;
-    }
-    #owai-personality-concept .ow-result-lead {
-      margin-top: 14px;
-      font-size: 23px;
-      font-weight: 500;
-      letter-spacing: -.035em;
-      line-height: 1.28;
-    }
-    #owai-personality-concept .ow-topic {
-      border-top: 1px solid var(--ow-line);
-      padding-top: 22px;
-      margin-top: 28px;
-    }
-    #owai-personality-concept .ow-topic-title {
-      margin-top: 12px;
-      font-size: 18px;
-      font-weight: 500;
-      letter-spacing: -.02em;
-      line-height: 1.45;
-    }
-    #owai-personality-concept .ow-result-note {
-      margin-top: 20px;
-      font-size: 12px;
-      line-height: 1.55;
-      color: var(--ow-muted);
-    }
-    #owai-personality-concept .ow-bottom {
-      margin-top: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-    }
-    #owai-personality-concept .ow-bottom p {
-      max-width: 335px;
-      font-size: 15px;
-      font-weight: 400;
-      line-height: 1.6;
-      color: var(--ow-muted);
-    }
-    #owai-personality-concept .ow-start {
-      display: inline-flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      flex: none;
-      padding: 19px 22px;
-      min-height: 60px;
-      border: 0;
-      border-radius: 4px;
-      background: var(--ow-ink);
-      color: var(--ow-white);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
-      line-height: 1.4;
-    }
-    #owai-personality-concept .ow-start:hover {background: #30302c;}
-    #owai-personality-concept .ow-start span {font-size: 21px;line-height: 1;}
-    @media(max-width: 660px) {
-      #owai-personality-concept .ow-intro h2 {font-size: clamp(35px, 8.7vw, 50px);margin-top: 20px;}
-      #owai-personality-concept .ow-intro p {font-size: 16px;line-height: 1.6;}
-      #owai-personality-concept .ow-example-bar {display: block;}
-      #owai-personality-concept .ow-choices {margin-top: 12px;}
-      #owai-personality-concept .ow-choice:first-child {padding-left: 0;padding-right: 16px;}
-      #owai-personality-concept .ow-demo {grid-template-columns: minmax(0, 1fr);}
-      #owai-personality-concept .ow-conversation,
-      #owai-personality-concept .ow-result {padding: clamp(20px, 5vw, 26px);}
-      #owai-personality-concept .ow-answer {font-size: 20px;padding-top: 20px;}
-      #owai-personality-concept .ow-answer-credit {padding-top: 18px;}
-      #owai-personality-concept .ow-result-lead {font-size: 25px;}
-      #owai-personality-concept .ow-result-note {margin-top: 20px;}
-      #owai-personality-concept .ow-bottom {display: block;}
-      #owai-personality-concept .ow-bottom p {max-width: 390px;font-size: 15px;}
-      #owai-personality-concept .ow-start {width: 100%;margin-top: 23px;font-size: 16px;}
+    #owai-personality-concept{--ow-paper:#f7f7f5;--ow-ink:#0f0f10;--ow-muted:#696965;--ow-line:#ddddd7;--ow-orange:#ff6b2c;color-scheme:light;width:100%;box-sizing:border-box;padding:clamp(24px,5.5vw,48px);background:var(--ow-paper);color:var(--ow-ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+    #owai-personality-concept *{box-sizing:border-box}
+    #owai-personality-concept h2,#owai-personality-concept h3,#owai-personality-concept p,#owai-personality-concept figure{margin:0}
+    #owai-personality-concept .ow-case-layout{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(300px,.88fr);column-gap:clamp(32px,6vw,100px);row-gap:28px;align-items:start}
+    #owai-personality-concept .ow-label{display:block;font-size:12px;font-weight:500;line-height:1.5;letter-spacing:.095em;text-transform:uppercase;color:var(--ow-muted)}
+    #owai-personality-concept .ow-intro{grid-column:1;grid-row:1}
+    #owai-personality-concept .ow-intro h2{margin:22px 0 24px;font-size:clamp(38px,5.5vw,66px);font-weight:600;letter-spacing:-.055em;line-height:1.06}
+    #owai-personality-concept .ow-intro h2 span{color:var(--ow-orange)}
+    #owai-personality-concept .ow-intro p{max-width:550px;font-size:17px;line-height:1.65;color:var(--ow-muted)}
+    #owai-personality-concept .ow-story{grid-column:1;grid-row:2;max-width:600px;border-top:1px solid var(--ow-line);padding-top:24px}
+    #owai-personality-concept .ow-story h3{margin:12px 0 16px;font-size:clamp(24px,2.7vw,34px);font-weight:500;letter-spacing:-.035em;line-height:1.2;text-wrap:balance}
+    #owai-personality-concept .ow-story p{font-size:16px;line-height:1.65;color:var(--ow-muted)}
+    #owai-personality-concept .ow-story .ow-outcome{margin-top:22px;padding-left:18px;border-left:3px solid var(--ow-orange);color:var(--ow-ink);font-size:19px;line-height:1.5;letter-spacing:-.015em}
+    #owai-personality-concept .ow-feed{grid-column:2;grid-row:1 / 4;width:100%;max-width:480px;justify-self:center;align-self:center}
+    #owai-personality-concept .ow-feed-player{width:100%;aspect-ratio:3 / 4;border-radius:4px;background:#191a17}
+    #owai-personality-concept .ow-feed-player>.inline-poster,#owai-personality-concept .ow-feed-player>video{object-fit:contain;max-height:none}
+    #owai-personality-concept .ow-feed figcaption{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px 20px;margin-top:12px;font-size:13px;line-height:1.5;color:var(--ow-muted)}
+    #owai-personality-concept .ow-feed figcaption span:last-child{color:var(--ow-ink)}
+    #owai-personality-concept .ow-bottom{grid-column:1;grid-row:3}
+    #owai-personality-concept .ow-start{display:inline-flex;align-items:center;justify-content:space-between;gap:28px;min-height:56px;padding:17px 22px;border:0;border-radius:4px;background:var(--ow-ink);color:#fff;text-decoration:none;font-size:14px;font-weight:500;line-height:1.4}
+    #owai-personality-concept .ow-start:hover{background:#30302c}
+    #owai-personality-concept .ow-start:focus-visible{outline:2px solid var(--ow-orange);outline-offset:4px}
+    #owai-personality-concept .ow-start span{font-size:21px;line-height:1}
+    @media(max-width:780px){
+      #owai-personality-concept .ow-case-layout{grid-template-columns:minmax(0,1fr);gap:28px}
+      #owai-personality-concept .ow-intro,#owai-personality-concept .ow-story,#owai-personality-concept .ow-feed,#owai-personality-concept .ow-bottom{grid-column:1;grid-row:auto}
+      #owai-personality-concept .ow-intro h2{font-size:clamp(35px,8.7vw,54px);margin-top:20px}
+      #owai-personality-concept .ow-intro p{font-size:16px;line-height:1.6}
+      #owai-personality-concept .ow-story .ow-outcome{font-size:18px}
+      #owai-personality-concept .ow-feed{max-width:420px}
+      #owai-personality-concept .ow-start{width:100%;font-size:16px}
     }
   </style>
-
-  <div class="ow-intro">
-    <span class="ow-label">Распаковка личности</span>
-    <h2 id="ow-personality-heading">Вам есть<br><span>что рассказать.</span></h2>
-    <p>OWAI задаёт вопросы о вашей жизни, работе и взглядах. Вы рассказываете, что с вами было, а из разговора появляются истории и темы для блога.</p>
-  </div>
-
-  <div class="ow-example">
-    <div class="ow-person">
-      <span class="ow-label">Пример · вымышленный персонаж</span>
-      <h3>Лена, 38 лет. Дизайнер интерьеров.</h3>
-      <p>Восемь лет работала бухгалтером, потом ушла в дизайн. Живёт с мужем и сыном. С папой чинит старую мебель. Заказчикам всё сдаёт в срок, а свою прихожую доделывает третий год.</p>
+  <div class="ow-case-layout">
+    <div class="ow-intro">
+      <span class="ow-label">Распаковка личности</span>
+      <h2 id="ow-personality-heading">Вам есть<br><span>что рассказать.</span></h2>
+      <p>OWAI задаёт вопросы о вашей жизни, работе и взглядах. Вы рассказываете, что с вами было, а из разговора появляются истории и темы для блога.</p>
     </div>
-    <div class="ow-example-bar">
-      <p class="ow-example-name"><b>Три истории Лены</b></p>
-      <div class="ow-choices" role="group" aria-label="Выберите историю Лены">
-        <button class="ow-choice" type="button" data-ow-example="change" aria-pressed="true" aria-controls="ow-personality-demo">Смена работы</button>
-        <button class="ow-choice" type="button" data-ow-example="mistake" aria-pressed="false" aria-controls="ow-personality-demo">Промах</button>
-        <button class="ow-choice" type="button" data-ow-example="home" aria-pressed="false" aria-controls="ow-personality-demo">Дома</button>
-      </div>
+    <div class="ow-story">
+      <span class="ow-label">Реальная история · Толя</span>
+      <h3>Десять лет не получалось вести блог.</h3>
+      <p>Толя не понимал, о чём писать, как рассказывать о своём продукте и для кого. Нанимал SMM-специалистов: они писали про природу и делали красивые рилсы. Но системно вести блог о продукте так и не получалось.</p>
+      <p class="ow-outcome">С OWAI он впервые полноценно и системно ведёт блог о своём продукте.</p>
     </div>
-
-    <div class="ow-demo" id="ow-personality-demo" aria-live="polite" aria-atomic="true">
-      <div class="ow-conversation">
-        <span class="ow-label">OWAI спрашивает</span>
-        <p class="ow-question" id="ow-personality-question">Вы сразу поняли, что хотите заниматься дизайном?</p>
-        <blockquote class="ow-answer" id="ow-personality-answer">«Я восемь лет была бухгалтером. На курсы дизайна записалась в тридцать. <mark>Маме полгода не говорила</mark> — она бы спросила, что не так с нормальной работой. Днём отчёты, вечером черчу кухню сестре. Я ещё год так жила: боялась остаться без зарплаты. Уволилась, когда появились два своих заказа».</blockquote>
-        <span class="ow-answer-credit">Лена рассказывает</span>
+    <figure class="ow-feed">
+      <div class="inline-player ow-feed-player" data-native-player data-video-label="Лента блога Толи">
+        <img class="inline-poster" src="./assets/tolya-feed-poster.webp" width="900" height="1200" loading="lazy" decoding="async" alt="Толя у микрофона — первый кадр видео его блога">
+        <video data-src="./assets/tolya-feed.mp4" poster="./assets/tolya-feed-poster.webp" muted loop playsinline preload="none" aria-hidden="true" disablepictureinpicture></video>
+        <button class="inline-video-toggle" type="button" data-video-toggle hidden>Запустить видео</button>
+        <span class="inline-video-status" data-video-status role="status" hidden>Видео не загрузилось</span>
       </div>
-      <div class="ow-result">
-        <span class="ow-label">OWAI уточняет</span>
-        <h3 class="ow-result-lead" id="ow-personality-followup">А что мама сказала, когда вы всё-таки ей рассказали?</h3>
-        <div class="ow-topic">
-          <span class="ow-label">История для блога</span>
-          <p class="ow-topic-title" id="ow-personality-topic">Как я в тридцать лет боялась сказать маме, что меняю работу</p>
-        </div>
-        <p class="ow-result-note">Можно рассказать в посте, карусели или ролике.</p>
-      </div>
+      <figcaption><span>Так выглядит его блог сейчас</span><span>@anatoli_owai</span></figcaption>
+    </figure>
+    <div class="ow-bottom">
+      <a class="ow-start" href="https://owai.studio/signup" target="_blank" rel="noopener noreferrer">Начать распаковку <span aria-hidden="true">↗</span></a>
     </div>
   </div>
-
-  <div class="ow-bottom">
-    <p>OWAI помогает вспомнить такие истории, уточняет детали и предлагает, о чём можно рассказать в блоге.</p>
-    <a class="ow-start" href="https://owai.studio/signup" target="_blank" rel="noopener noreferrer">Начать распаковку <span aria-hidden="true">↗</span></a>
-  </div>
-
-  <script>
-    (() => {
-      const root = document.getElementById('owai-personality-concept');
-      const question = root.querySelector('#ow-personality-question');
-      const answer = root.querySelector('#ow-personality-answer');
-      const followup = root.querySelector('#ow-personality-followup');
-      const topic = root.querySelector('#ow-personality-topic');
-      const choices = Array.from(root.querySelectorAll('[data-ow-example]'));
-      const examples = {
-        change: {
-          question: 'Вы сразу поняли, что хотите заниматься дизайном?',
-          before: '«Я восемь лет была бухгалтером. На курсы дизайна записалась в тридцать. ',
-          emphasis: 'Маме полгода не говорила',
-          after: ' — она бы спросила, что не так с нормальной работой. Днём отчёты, вечером черчу кухню сестре. Я ещё год так жила: боялась остаться без зарплаты. Уволилась, когда появились два своих заказа».',
-          followup: 'А что мама сказала, когда вы всё-таки ей рассказали?',
-          topic: 'Как я в тридцать лет боялась сказать маме, что меняю работу'
-        },
-        mistake: {
-          question: 'А какой рабочий промах до сих пор помните?',
-          before: '«В первом проекте я заказала красивый диван, а про дверь не подумала. Он в неё не пролез. Стою в подъезде, грузчики ждут, клиент смотрит на меня. ',
-          emphasis: 'Хотелось сказать, что магазин что-то напутал.',
-          after: ' Но заказала-то его я. Доплатила за разборку из своих денег. Теперь дверные проёмы меряю по два раза».',
-          followup: 'Как вы объяснили клиенту, что произошло?',
-          topic: 'Я заказала диван, который не прошёл в дверь'
-        },
-        home: {
-          question: 'Дома у вас тоже всё продумано до мелочей?',
-          before: '«У нас в прихожей третий год торчит провод вместо светильника. Зато стол я отреставрировала — старый, ещё бабушкин. Папа помогал ножки выровнять. Муж предлагает купить новый, а мне жалко: ',
-          emphasis: 'под этим столом я в детстве пряталась.',
-          after: ' Теперь сын там с котом сидит. Царапин, конечно, прибавилось».',
-          followup: 'А что ещё вы сохранили из бабушкиного дома?',
-          topic: 'Бабушкин стол теперь стоит у меня'
-        }
-      };
-
-      function selectExample(key) {
-        const item = examples[key];
-        if (!item) return;
-        choices.forEach(button => {
-          button.setAttribute('aria-pressed', String(button.dataset.owExample === key));
-        });
-        question.textContent = item.question;
-        const highlight = document.createElement('mark');
-        highlight.textContent = item.emphasis;
-        answer.replaceChildren(document.createTextNode(item.before), highlight, document.createTextNode(item.after));
-        followup.textContent = item.followup;
-        topic.textContent = item.topic;
-      }
-
-      choices.forEach(button => {
-        button.addEventListener('click', () => selectExample(button.dataset.owExample));
-      });
-    })();
-  </script>
 </section>
  <section class="section-pad home-character"><div class="section-heading"><span class="eyebrow">01 / ВАШ ОБРАЗ</span><h2>Вы узнаваемы.<br>Истории <em>меняются.</em></h2></div><div class="split split-wide"><div class="body-copy"><p class="lead">Один раз соберите карту персонажа — и используйте свой образ в разных материалах.</p><p>Меняйте окружение, одежду и настроение кадра. Создавайте изображения и видео, которые остаются частью вашего визуального мира.</p><a class="text-link" href="./avatar/">Как работает аватар <span>↗</span></a></div><figure><div class="inline-player character-map-player" data-native-player data-play-delay="3000" data-video-label="Карта персонажа OWAI">
 <img class="inline-poster" src="./assets/character-map.webp" width="1280" height="853" alt="Карта персонажа OWAI: полный рост и четыре ракурса лица" loading="lazy" decoding="async">
