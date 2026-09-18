@@ -92,9 +92,15 @@
 .character-map-player>.inline-poster{position:relative;display:block;width:100%;height:auto}
 .character-map-player>video{object-fit:cover}
 
-/* The spoken example autoplays while visible and keeps native sound controls. */
+/* The spoken example has one sound button over the autoplaying video. */
 .home-video .expert-video-player{aspect-ratio:480 / 854}
-.expert-video-player>video{pointer-events:auto}
+.expert-video-player>video{pointer-events:none}
+.expert-video-player>video::-webkit-media-controls,.expert-video-player>video::-webkit-media-controls-enclosure,.expert-video-player>video::-webkit-media-controls-start-playback-button{display:none!important}
+.inline-video-sound{position:absolute;z-index:4;right:14px;bottom:14px;display:inline-flex;align-items:center;gap:9px;min-height:44px;max-width:calc(100% - 28px);padding:10px 13px;border:1px solid #fff6;border-radius:4px;background:#171717d9;color:#fff;font:inherit;font-size:13px;line-height:1.4;cursor:pointer}
+.inline-video-sound:hover{background:#171717f2}
+.inline-video-sound:focus-visible{outline:2px solid var(--orange);outline-offset:3px}
+.inline-video-sound svg{width:20px;height:20px;flex:none}
+.inline-video-sound[data-muted="true"] .sound-on,.inline-video-sound[data-muted="false"] .sound-off{display:none}
 
 /* The marketing copy stays in one fixed layer over both the poster and the video. */
 .home-post .post-motion-player{aspect-ratio:4 / 5}

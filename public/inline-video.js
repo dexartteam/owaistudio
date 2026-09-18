@@ -10,6 +10,8 @@
     slot,
     video: slot.querySelector('video'),
     button: slot.querySelector('[data-video-toggle]'),
+    soundControl: slot.querySelector('[data-video-sound]'),
+    soundWanted: false,
     status: slot.querySelector('[data-video-status]'),
     visible: !('IntersectionObserver' in window),
     userMotion: null,
@@ -30,17 +32,27 @@
   function prime(item) {
     if (item.loaded) return;
     item.loaded = true;
-    item.video.muted = true;
+    item.video.muted = !item.soundWanted;
     item.video.preload = 'auto';
     item.video.src = item.video.dataset.src;
     item.video.load();
   }
 
   function updateButton(item) {
-    const label = item.failed ? 'Повторить' : 'Запустить видео';
-    item.button.hidden = !item.failed && !item.blocked && motionAllowed(item);
-    item.button.textContent = label;
-    item.button.setAttribute('aria-label', `${label}: ${item.slot.dataset.videoLabel}`);
+    if (item.soundControl) {
+      const audible = !item.video.muted && item.video.volume > 0;
+      const label = item.failed ? 'Повторить запуск' : audible ? 'Выключить звук' : 'Включить звук';
+      item.button.hidden = false;
+      item.button.querySelector('[data-sound-label]').textContent = label;
+      item.button.dataset.muted = String(!audible);
+      item.button.setAttribute('aria-pressed', String(audible));
+      item.button.setAttribute('aria-label', `${label}: ${item.slot.dataset.videoLabel}`);
+    } else {
+      const label = item.failed ? 'Повторить' : 'Запустить видео';
+      item.button.hidden = !item.failed && !item.blocked && motionAllowed(item);
+      item.button.textContent = label;
+      item.button.setAttribute('aria-label', `${label}: ${item.slot.dataset.videoLabel}`);
+    }
     item.status.hidden = !item.failed;
   }
 
@@ -92,6 +104,12 @@
 
   items.forEach(item => {
     item.button.addEventListener('click', () => {
+      if (item.soundControl) {
+        // One control also starts the clip if the browser blocked autoplay.
+        item.soundWanted = item.video.muted || item.video.volume === 0;
+        item.video.muted = !item.soundWanted;
+        if (item.soundWanted && item.video.volume === 0) item.video.volume = 1;
+      }
       item.userMotion = true;
       cancelDelay(item);
       item.delayReady = true;
@@ -118,6 +136,7 @@
       updateButton(item);
     });
     item.video.addEventListener('canplay', () => sync(item));
+    if (item.soundControl) item.video.addEventListener('volumechange', () => updateButton(item));
     updateButton(item);
   });
 
